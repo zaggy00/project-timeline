@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Task & Work Hours Plan</title>
+    <link
+      href="https://unpkg.com/vis-timeline@latest/dist/vis-timeline-graph2d.min.css"
+      rel="stylesheet"
+      type="text/css"
+    />
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 20px;
+      }
+      #timeline {
+        width: 100%;
+        height: 500px;
+        border: 1px solid lightgray;
+        margin-bottom: 40px;
+      }
+      h2 {
+        margin-top: 40px;
+      }
+      ul {
+        list-style: none;
+        padding-left: 0;
+      }
+      li {
+        background: #f1f1f1;
+        margin: 5px 0;
+        padding: 8px;
+        border-radius: 4px;
+      }
+      .daily-task {
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+      }
+      .task-status {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+      .task-status.red {
+        background-color: red;
+      }
+      .task-status.yellow {
+        background-color: yellow;
+      }
+      .task-status.green {
+        background-color: green;
+      }
+      .task-checklist {
+        display: flex;
+        flex-direction: column;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Project Timeline & Weekly Plan</h1>
+
+    <h2>Task Timeline</h2>
+    <div id="timeline"></div>
+
+    <h2>Weekly Work Hours Plan</h2>
+    <ul id="weekly-plan"></ul>
+
+    <h2>Daily Task Checklist</h2>
+    <div id="daily-tasks"></div>
+
+    <script src="https://unpkg.com/vis-timeline@latest/dist/vis-timeline-graph2d.min.js"></script>
+    <script>
+      // Timeline items for tasks and deadlines
+      const items = new vis.DataSet([
+        {
+          id: 1,
+          content: "Spectrum Cert outline verification",
+          start: "2025-02-16T09:00:00",
+          end: "2025-02-16T10:00:00",
+          group: "Saturday Morning"
+        },
+        {
+          id: 2,
+          content: "Software Version Description",
+          start: "2025-02-16T11:00:00",
+          end: "2025-02-16T12:00:00",
+          group: "Saturday Morning"
+        },
+        {
+          id: 3,
+          content: "Hazardous Waste Report Draft (Due 20 Feb)",
+          start: "2025-02-20",
+          type: "box",
+          group: "Due Dates"
+        },
+        {
+          id: 4,
+          content: "Hazmat Log (Due 20 Feb)",
+          start: "2025-02-20",
+          type: "box",
+          group: "Due Dates"
+        },
+        {
+          id: 5,
+          content: "Cybersecurity Plan Internal Review (21 Feb)",
+          start: "2025-02-21",
+          type: "box",
+          group: "Due Dates"
+        },
+        {
+          id: 6,
+          content: "Cybersecurity Plan Draft Review (3 Mar)",
+          start: "2025-03-03",
+          type: "box",
+          group: "Due Dates"
+        }
+      ]);
+
+      const groups = new vis.DataSet([
+        { id: "Saturday Morning", content: "Saturday Morning (Fresh Energy)" },
+        { id: "Saturday Afternoon", content: "Saturday Afternoon (Medium Energy)" },
+        { id: "Sunday Morning", content: "Sunday Morning (Fresh Energy)" },
+        { id: "Sunday Afternoon", content: "Sunday Afternoon (Wrap-Up)" },
+        { id: "Due Dates", content: "Due Dates" }
+      ]);
+
+      const container = document.getElementById("timeline");
+      const options = {
+        stack: false,
+        editable: false,
+        zoomable: true,
+        horizontalScroll: true,
+        margin: { item: 20, axis: 40 }
+      };
+
+      new vis.Timeline(container, items, groups, options);
+
+      const weeklyPlanEl = document.getElementById("weekly-plan");
+      const startDate = new Date("2025-02-16");
+      const numWeeks = 8;
+      for (let i = 0; i < numWeeks; i++) {
+        let weekStart = new Date(startDate);
+        weekStart.setDate(startDate.getDate() + i * 7);
+        let weekEnd = new Date(weekStart);
+        weekEnd.setDate(weekStart.getDate() + 6);
+        const listItem = document.createElement("li");
+        listItem.textContent = `Week ${i + 1} (${weekStart.toLocaleDateString()} – ${weekEnd.toLocaleDateString()}): Plan for 15–20 hours of work`;
+        weeklyPlanEl.appendChild(listItem);
+      }
+
+      // Daily task checklist
+      const dailyTasks = [
+        {
+          date: "2025-02-16 - First Set",
+          tasks: [
+            { time: "1000-1030", content: "Coffee integration period", status: "red" },
+            { time: "1030-1045", content: "Environment optimization", status: "yellow" },
+            { time: "1045-1100", content: "System activation review", status: "green" },
+            { time: "1100-1230", content: "Primary Work Block: Outline verification, HAZMAT priority items", status: "yellow" },
+            { time: "1230-1245", content: "Movement integration", status: "green" },
+            { time: "1245-1300", content: "Resource replenishment", status: "yellow" },
+            { time: "1300-1400", content: "Secondary Work Block: Gap analysis, Documentation mapping", status: "green" }
+          ]
+        },
+        {
+          date: "2025-02-16 - Second Set",
+          tasks: [
+            { time: "1400-1445", content: "Nutrition integration", status: "yellow" },
+            { time: "1445-1500", content: "System reset", status: "green" },
+            { time: "1500-1630", content: "Development Block: Content development, SME communications", status: "red" },
+            { time: "1630-1645", content: "Physical reset", status: "green" },
+            { time: "1645-1700", content: "Cognitive realignment", status: "yellow" },
+            { time: "1700-1900", content: "Final Block: Progress documentation, Status updates", status: "green" }
+          ]
+        },
+        {
+          date: "2025-02-17 - Morning",
+          tasks: [
+            { time: "1000-1030", content: "System reactivation", status: "green" },
+            { time: "1030-1045", content: "Progress review", status: "yellow" },
+            { time: "1045-1100", content: "Strategy confirmation", status: "green" },
+            { time: "1100-1245", content: "Deep Work Block: Technical content, High-complexity items", status: "yellow" },
+            { time: "1245-1300", content: "Physical integration", status: "green" },
+            { time: "1300-1315", content: "Resource management", status: "yellow" },
+            { time: "1315-1400", content: "Refinement Block: Quality verification, Technical accuracy", status: "green" }
+          ]
+        },
+        {
+          date: "2025-02-17 - Afternoon",
+          tasks: [
+            { time: "1400-1445", content: "Nutrition protocol", status: "yellow" },
+            { time: "1445-1500", content: "System alignment", status: "green" },
+            { time: "1500-1630", content: "Consolidation Block: Week preparation, Action plans", status: "red" },
+            { time: "1630-1700", content: "System documentation", status: "green" },
+            { time: "1700-1800", content: "Week initialization", status: "yellow" }
+          ]
+        }
+      ];
+
+      const dailyTasksEl = document.getElementById("daily-tasks");
+      dailyTasks.forEach(day => {
+        const dayEl = document.createElement("div");
+        dayEl.classList.add("daily-task");
+
+        const dateEl = document.createElement("div");
+        dateEl.textContent = day.date;
+        dateEl.style.fontWeight = "bold";
+        dateEl.style.marginRight = "20px";
+
+        const checklistEl = document.createElement("div");
+        checklistEl.classList.add("task-checklist");
+
+        day.tasks.forEach(task => {
+          const taskEl = document.createElement("div");
+          taskEl.classList.add("daily-task");
+          
+          const statusEl = document.createElement("div");
+          statusEl.classList.add("task-status", task.status);
+
+          const taskContentEl = document.createElement("div");
+          taskContentEl.textContent = `${task.time}: ${task.content}`;
+
+          taskEl.appendChild(statusEl);
+          taskEl.appendChild(taskContentEl);
+          checklistEl.appendChild(taskEl);
+        });
+
+        dayEl.appendChild(dateEl);
+        dayEl.appendChild(checklistEl);
+        dailyTasksEl.appendChild(dayEl);
+      });
+
+      // Function to update task status
+      function updateTaskStatus(date, taskContent, newStatus) {
+        const day = dailyTasks.find(d => d.date === date);
+        if (day) {
+          const task = day.tasks.find(t => t.content === taskContent);
+          if (task) {
+            task.status = newStatus;
+            renderDailyTasks();
+          }
+        }
+      }
+
+      // Function to render daily tasks
+      function renderDailyTasks() {
+        dailyTasksEl.innerHTML = "";
+        dailyTasks.forEach(day => {
+          const dayEl = document.createElement("div");
+          dayEl.classList.add("daily-task");
+
+          const dateEl = document.createElement("div");
+          dateEl.textContent = day.date;
+          dateEl.style.fontWeight = "bold";
+          dateEl.style.marginRight = "20px";
+
+          const checklistEl = document.createElement("div");
+          checklistEl.classList.add("task-checklist");
+
+          day.tasks.forEach(task => {
+            const taskEl = document.createElement("div");
+            taskEl.classList.add("daily-task");
+            
+            const statusEl = document.createElement("div");
+            statusEl.classList.add("task-status", task.status);
+
+            const taskContentEl = document.createElement("div");
+            taskContentEl.textContent = `${task.time}: ${task.content}`;
+
+            taskEl.appendChild(statusEl);
+            taskEl.appendChild(taskContentEl);
+            checklistEl.appendChild(taskEl);
+          });
+
+          dayEl.appendChild(dateEl);
+          dayEl.appendChild(checklistEl);
+          dailyTasksEl.appendChild(dayEl);
+        });
+      }
+
+      renderDailyTasks();
+    </script>
+  </body>
+</html>
