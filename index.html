@@ -1,286 +1,542 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <title>Task & Work Hours Plan</title>
-    <link
-      href="https://unpkg.com/vis-timeline@latest/dist/vis-timeline-graph2d.min.css"
-      rel="stylesheet"
-      type="text/css"
-    />
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Timeline [Feb-Apr 2024]</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <style>
-      body {
-        font-family: sans-serif;
-        margin: 20px;
-      }
-      #timeline {
-        width: 100%;
-        height: 500px;
-        border: 1px solid lightgray;
-        margin-bottom: 40px;
-      }
-      h2 {
-        margin-top: 40px;
-      }
-      ul {
-        list-style: none;
-        padding-left: 0;
-      }
-      li {
-        background: #f1f1f1;
-        margin: 5px 0;
-        padding: 8px;
-        border-radius: 4px;
-      }
-      .daily-task {
-        display: flex;
-        align-items: center;
-        margin: 10px 0;
-      }
-      .task-status {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        margin-right: 10px;
-      }
-      .task-status.red {
-        background-color: red;
-      }
-      .task-status.yellow {
-        background-color: yellow;
-      }
-      .task-status.green {
-        background-color: green;
-      }
-      .task-checklist {
-        display: flex;
-        flex-direction: column;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Project Timeline & Weekly Plan</h1>
-
-    <h2>Task Timeline</h2>
-    <div id="timeline"></div>
-
-    <h2>Weekly Work Hours Plan</h2>
-    <ul id="weekly-plan"></ul>
-
-    <h2>Daily Task Checklist</h2>
-    <div id="daily-tasks"></div>
-
-    <script src="https://unpkg.com/vis-timeline@latest/dist/vis-timeline-graph2d.min.js"></script>
-    <script>
-      // Timeline items for tasks and deadlines
-      const items = new vis.DataSet([
-        {
-          id: 1,
-          content: "Spectrum Cert outline verification",
-          start: "2025-02-16T09:00:00",
-          end: "2025-02-16T10:00:00",
-          group: "Saturday Morning"
-        },
-        {
-          id: 2,
-          content: "Software Version Description",
-          start: "2025-02-16T11:00:00",
-          end: "2025-02-16T12:00:00",
-          group: "Saturday Morning"
-        },
-        {
-          id: 3,
-          content: "Hazardous Waste Report Draft (Due 20 Feb)",
-          start: "2025-02-20",
-          type: "box",
-          group: "Due Dates"
-        },
-        {
-          id: 4,
-          content: "Hazmat Log (Due 20 Feb)",
-          start: "2025-02-20",
-          type: "box",
-          group: "Due Dates"
-        },
-        {
-          id: 5,
-          content: "Cybersecurity Plan Internal Review (21 Feb)",
-          start: "2025-02-21",
-          type: "box",
-          group: "Due Dates"
-        },
-        {
-          id: 6,
-          content: "Cybersecurity Plan Draft Review (3 Mar)",
-          start: "2025-03-03",
-          type: "box",
-          group: "Due Dates"
+        :root {
+            --theme-primary: #0078D4;
+            --theme-light: #F3F2F1;
+            --theme-dark: #201F1E;
+            --theme-grey: #605E5C;
+            --theme-white: #FFFFFF;
+            --theme-milestone: #0078D4;
+            --theme-today: #107C10;
+            --shadow-card: 0 2px 4px rgba(0,0,0,0.1);
         }
-      ]);
 
-      const groups = new vis.DataSet([
-        { id: "Saturday Morning", content: "Saturday Morning (Fresh Energy)" },
-        { id: "Saturday Afternoon", content: "Saturday Afternoon (Medium Energy)" },
-        { id: "Sunday Morning", content: "Sunday Morning (Fresh Energy)" },
-        { id: "Sunday Afternoon", content: "Sunday Afternoon (Wrap-Up)" },
-        { id: "Due Dates", content: "Due Dates" }
-      ]);
-
-      const container = document.getElementById("timeline");
-      const options = {
-        stack: false,
-        editable: false,
-        zoomable: true,
-        horizontalScroll: true,
-        margin: { item: 20, axis: 40 }
-      };
-
-      new vis.Timeline(container, items, groups, options);
-
-      const weeklyPlanEl = document.getElementById("weekly-plan");
-      const startDate = new Date("2025-02-16");
-      const numWeeks = 8;
-      for (let i = 0; i < numWeeks; i++) {
-        let weekStart = new Date(startDate);
-        weekStart.setDate(startDate.getDate() + i * 7);
-        let weekEnd = new Date(weekStart);
-        weekEnd.setDate(weekStart.getDate() + 6);
-        const listItem = document.createElement("li");
-        listItem.textContent = `Week ${i + 1} (${weekStart.toLocaleDateString()} – ${weekEnd.toLocaleDateString()}): Plan for 15–20 hours of work`;
-        weeklyPlanEl.appendChild(listItem);
-      }
-
-      // Daily task checklist
-      const dailyTasks = [
-        {
-          date: "2025-02-16 - First Set",
-          tasks: [
-            { time: "1000-1030", content: "Coffee integration period", status: "red" },
-            { time: "1030-1045", content: "Environment optimization", status: "yellow" },
-            { time: "1045-1100", content: "System activation review", status: "green" },
-            { time: "1100-1230", content: "Primary Work Block: Outline verification, HAZMAT priority items", status: "yellow" },
-            { time: "1230-1245", content: "Movement integration", status: "green" },
-            { time: "1245-1300", content: "Resource replenishment", status: "yellow" },
-            { time: "1300-1400", content: "Secondary Work Block: Gap analysis, Documentation mapping", status: "green" }
-          ]
-        },
-        {
-          date: "2025-02-16 - Second Set",
-          tasks: [
-            { time: "1400-1445", content: "Nutrition integration", status: "yellow" },
-            { time: "1445-1500", content: "System reset", status: "green" },
-            { time: "1500-1630", content: "Development Block: Content development, SME communications", status: "red" },
-            { time: "1630-1645", content: "Physical reset", status: "green" },
-            { time: "1645-1700", content: "Cognitive realignment", status: "yellow" },
-            { time: "1700-1900", content: "Final Block: Progress documentation, Status updates", status: "green" }
-          ]
-        },
-        {
-          date: "2025-02-17 - Morning",
-          tasks: [
-            { time: "1000-1030", content: "System reactivation", status: "green" },
-            { time: "1030-1045", content: "Progress review", status: "yellow" },
-            { time: "1045-1100", content: "Strategy confirmation", status: "green" },
-            { time: "1100-1245", content: "Deep Work Block: Technical content, High-complexity items", status: "yellow" },
-            { time: "1245-1300", content: "Physical integration", status: "green" },
-            { time: "1300-1315", content: "Resource management", status: "yellow" },
-            { time: "1315-1400", content: "Refinement Block: Quality verification, Technical accuracy", status: "green" }
-          ]
-        },
-        {
-          date: "2025-02-17 - Afternoon",
-          tasks: [
-            { time: "1400-1445", content: "Nutrition protocol", status: "yellow" },
-            { time: "1445-1500", content: "System alignment", status: "green" },
-            { time: "1500-1630", content: "Consolidation Block: Week preparation, Action plans", status: "red" },
-            { time: "1630-1700", content: "System documentation", status: "green" },
-            { time: "1700-1800", content: "Week initialization", status: "yellow" }
-          ]
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            background: var(--theme-light);
+            color: var(--theme-dark);
         }
-      ];
 
-      const dailyTasksEl = document.getElementById("daily-tasks");
-      dailyTasks.forEach(day => {
-        const dayEl = document.createElement("div");
-        dayEl.classList.add("daily-task");
-
-        const dateEl = document.createElement("div");
-        dateEl.textContent = day.date;
-        dateEl.style.fontWeight = "bold";
-        dateEl.style.marginRight = "20px";
-
-        const checklistEl = document.createElement("div");
-        checklistEl.classList.add("task-checklist");
-
-        day.tasks.forEach(task => {
-          const taskEl = document.createElement("div");
-          taskEl.classList.add("daily-task");
-          
-          const statusEl = document.createElement("div");
-          statusEl.classList.add("task-status", task.status);
-
-          const taskContentEl = document.createElement("div");
-          taskContentEl.textContent = `${task.time}: ${task.content}`;
-
-          taskEl.appendChild(statusEl);
-          taskEl.appendChild(taskContentEl);
-          checklistEl.appendChild(taskEl);
-        });
-
-        dayEl.appendChild(dateEl);
-        dayEl.appendChild(checklistEl);
-        dailyTasksEl.appendChild(dayEl);
-      });
-
-      // Function to update task status
-      function updateTaskStatus(date, taskContent, newStatus) {
-        const day = dailyTasks.find(d => d.date === date);
-        if (day) {
-          const task = day.tasks.find(t => t.content === taskContent);
-          if (task) {
-            task.status = newStatus;
-            renderDailyTasks();
-          }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem;
         }
-      }
 
-      // Function to render daily tasks
-      function renderDailyTasks() {
-        dailyTasksEl.innerHTML = "";
-        dailyTasks.forEach(day => {
-          const dayEl = document.createElement("div");
-          dayEl.classList.add("daily-task");
+        .nav-panel {
+            position: sticky;
+            top: 0;
+            background: var(--theme-white);
+            padding: 1rem;
+            margin-bottom: 2rem;
+            border-radius: 4px;
+            box-shadow: var(--shadow-card);
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-          const dateEl = document.createElement("div");
-          dateEl.textContent = day.date;
-          dateEl.style.fontWeight = "bold";
-          dateEl.style.marginRight = "20px";
+        .nav-links {
+            display: flex;
+            gap: 0.5rem;
+        }
 
-          const checklistEl = document.createElement("div");
-          checklistEl.classList.add("task-checklist");
+        .nav-link {
+            padding: 0.5rem 1rem;
+            background: var(--theme-white);
+            border: 1px solid var(--theme-primary);
+            border-radius: 4px;
+            color: var(--theme-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
 
-          day.tasks.forEach(task => {
-            const taskEl = document.createElement("div");
-            taskEl.classList.add("daily-task");
+        .nav-link:hover {
+            background: var(--theme-primary);
+            color: var(--theme-white);
+        }
+
+        .month-section {
+            background: var(--theme-white);
+            border-radius: 4px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .month-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--theme-dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--theme-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .month-subtitle {
+            font-size: 0.875rem;
+            color: var(--theme-grey);
+            font-weight: normal;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+        }
+
+        .calendar-header {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .calendar-header span {
+            text-align: center;
+            font-weight: 500;
+            color: var(--theme-grey);
+            font-size: 0.875rem;
+        }
+
+        .day {
+            aspect-ratio: 1;
+            background: var(--theme-white);
+            border: 1px solid var(--theme-light);
+            border-radius: 4px;
+            padding: 0.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            position: relative;
+        }
+
+        .day.weekend {
+            background: var(--theme-light);
+        }
+
+        .day.today {
+            border: 2px solid var(--theme-today);
+        }
+
+        .day.inactive {
+            opacity: 0.5;
+        }
+
+        .day.has-milestone {
+            border-color: var(--theme-milestone);
+        }
+
+        .date {
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .milestone {
+            background: var(--theme-milestone);
+            color: var(--theme-white);
+            padding: 0.25rem;
+            font-size: 0.75rem;
+            border-radius: 2px;
+            margin-top: auto;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .management-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--theme-light);
+        }
+
+        .management-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .management-column h4 {
+            color: var(--theme-primary);
+            margin: 0 0 0.5rem 0;
+        }
+
+        .bullet-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .bullet-list li {
+            position: relative;
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .bullet-list li:before {
+            content: "•";
+            color: var(--theme-primary);
+            position: absolute;
+            left: 0.5rem;
+        }
+
+        .task-list {
+            margin: 1rem 0;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .task-item input[type="checkbox"] {
+            accent-color: var(--theme-primary);
+        }
+
+        .task-item label {
+            font-size: 0.875rem;
+            color: var(--theme-dark);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0.5rem;
+            }
             
-            const statusEl = document.createElement("div");
-            statusEl.classList.add("task-status", task.status);
+            .day {
+                padding: 0.25rem;
+            }
+            
+            .milestone {
+                font-size: 0.6875rem;
+            }
 
-            const taskContentEl = document.createElement("div");
-            taskContentEl.textContent = `${task.time}: ${task.content}`;
+            .management-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+  <body>
+    <div style="background: var(--theme-light); padding: 0.5rem; font-size: 0.875rem; color: var(--theme-grey); text-align: right;">
+        Last updated: 2025-02-08 08:20:53 UTC by zaggy00
+    </div>
+       <div class="container">
+        <nav class="nav-panel">
+            <div class="nav-links">
+                <a href="#february" class="nav-link">February</a>
+                <a href="#march" class="nav-link">March</a>
+                <a href="#april" class="nav-link">April</a>
+            </div>
+        </nav>
 
-            taskEl.appendChild(statusEl);
-            taskEl.appendChild(taskContentEl);
-            checklistEl.appendChild(taskEl);
-          });
+        <section id="february" class="month-section">
+            <h2 class="month-title">
+                February 2024
+                <span class="month-subtitle">HAZMAT Documentation Phase</span>
+            </h2>
+            <div class="calendar-header">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+            </div>
+            <div class="calendar-grid">
+                <!-- Previous month days -->
+                <div class="day inactive"><span class="date">28</span></div>
+                <div class="day inactive"><span class="date">29</span></div>
+                <div class="day inactive"><span class="date">30</span></div>
+                <div class="day inactive"><span class="date">31</span></div>
+                <div class="day"><span class="date">1</span></div>
+                <div class="day"><span class="date">2</span></div>
+                <div class="day weekend"><span class="date">3</span></div>
+                
+                <div class="day weekend"><span class="date">4</span></div>
+                <div class="day"><span class="date">5</span></div>
+                <div class="day"><span class="date">6</span></div>
+                <div class="day"><span class="date">7</span></div>
+                <div class="day today has-milestone">
+                    <span class="date">8</span>
+                    <div class="milestone">Project Start</div>
+                </div>
+                <div class="day"><span class="date">9</span></div>
+                <div class="day weekend"><span class="date">10</span></div>
 
-          dayEl.appendChild(dateEl);
-          dayEl.appendChild(checklistEl);
-          dailyTasksEl.appendChild(dayEl);
-        });
-      }
+                <div class="day weekend"><span class="date">11</span></div>
+                <div class="day"><span class="date">12</span></div>
+                <div class="day has-milestone">
+                    <span class="date">13</span>
+                    <div class="milestone">HAZMAT Review</div>
+                </div>
+                <div class="day"><span class="date">14</span></div>
+                <div class="day"><span class="date">15</span></div>
+                <div class="day"><span class="date">16</span></div>
+                <div class="day weekend"><span class="date">17</span></div>
 
-      renderDailyTasks();
-    </script>
-  </body>
+                <div class="day weekend"><span class="date">18</span></div>
+                <div class="day"><span class="date">19</span></div>
+                <div class="day has-milestone">
+                    <span class="date">20</span>
+                    <div class="milestone">HAZMAT/HWR Due</div>
+                </div>
+                <div class="day has-milestone">
+                    <span class="date">21</span>
+                    <div class="milestone">Peer Review</div>
+                </div>
+                <div class="day"><span class="date">22</span></div>
+                <div class="day"><span class="date">23</span></div>
+                <div class="day weekend"><span class="date">24</span></div>
+
+                <div class="day weekend"><span class="date">25</span></div>
+                <div class="day"><span class="date">26</span></div>
+                <div class="day"><span class="date">27</span></div>
+                <div class="day"><span class="date">28</span></div>
+                <div class="day"><span class="date">29</span></div>
+            </div>
+        </section>
+            <div class="management-section">
+                <h3>Management & Planning</h3>
+                <div class="management-grid">
+                    <div class="management-column">
+                        <h4>Energy Management</h4>
+                        <ul class="bullet-list">
+                            <li>Peak focus: 0900-1200</li>
+                            <li>Secondary focus: 1400-1600</li>
+                            <li>Break every 45-60 min</li>
+                        </ul>
+                    </div>
+                    <div class="management-column">
+                        <h4>Environmental Setup</h4>
+                        <ul class="bullet-list">
+                            <li>Minimize notifications</li>
+                            <li>Documentation accessible</li>
+                            <li>Clear workspace policy</li>
+                        </ul>
+                    </div>
+                    <div class="management-column">
+                        <h4>Movement Integration</h4>
+                        <ul class="bullet-list">
+                            <li>Stand/walk during calls</li>
+                            <li>Stretching during breaks</li>
+                            <li>Air & light exposure</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- March Section -->
+        <section id="march" class="month-section">
+            <h2 class="month-title">
+                March 2024
+                <span class="month-subtitle">Review & Integration Phase</span>
+            </h2>
+            <div class="calendar-header">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+            </div>
+            <div class="calendar-grid">
+                <!-- Complete March calendar with all days -->
+                <div class="day"><span class="date">1</span></div>
+                <div class="day weekend"><span class="date">2</span></div>
+
+                <div class="day weekend has-milestone">
+                    <span class="date">3</span>
+                    <div class="milestone">Draft Review</div>
+                </div>
+                <div class="day"><span class="date">4</span></div>
+                <div class="day"><span class="date">5</span></div>
+                <div class="day has-milestone">
+                    <span class="date">6</span>
+                    <div class="milestone">Draft Review</div>
+                </div>
+<!-- Continuing March from March 7th -->
+<div class="day"><span class="date">7</span></div>
+<div class="day"><span class="date">8</span></div>
+<div class="day weekend"><span class="date">9</span></div>
+
+<div class="day weekend"><span class="date">10</span></div>
+<div class="day"><span class="date">11</span></div>
+<div class="day"><span class="date">12</span></div>
+<div class="day"><span class="date">13</span></div>
+<div class="day has-milestone">
+    <span class="date">14</span>
+    <div class="milestone">Technical Review</div>
+</div>
+<div class="day"><span class="date">15</span></div>
+<div class="day weekend"><span class="date">16</span></div>
+
+<div class="day weekend"><span class="date">17</span></div>
+<div class="day"><span class="date">18</span></div>
+<div class="day"><span class="date">19</span></div>
+<div class="day has-milestone">
+    <span class="date">20</span>
+    <div class="milestone">Integration Check</div>
+</div>
+<div class="day"><span class="date">21</span></div>
+<div class="day"><span class="date">22</span></div>
+<div class="day weekend"><span class="date">23</span></div>
+
+<div class="day weekend"><span class="date">24</span></div>
+<div class="day"><span class="date">25</span></div>
+<div class="day"><span class="date">26</span></div>
+<div class="day"><span class="date">27</span></div>
+<div class="day has-milestone">
+    <span class="date">28</span>
+    <div class="milestone">Final Review</div>
+</div>
+<div class="day"><span class="date">29</span></div>
+<div class="day weekend"><span class="date">30</span></div>
+
+<div class="day weekend"><span class="date">31</span></div>             <div class="management-section">
+                <h3>Management & Planning</h3>
+                <div class="management-grid">
+                    <div class="management-column">
+                        <h4>Energy Management</h4>
+                        <ul class="bullet-list">
+                            <li>Review sessions: 0900-1100</li>
+                            <li>Integration work: 1400-1600</li>
+                            <li>Regular check-ins</li>
+                        </ul>
+                    </div>
+                    <div class="management-column">
+                        <h4>Environmental Setup</h4>
+                        <ul class="bullet-list">
+                            <li>Review space prepared</li>
+                            <li>Reference materials ready</li>
+                            <li>Collaboration tools set</li>
+                        </ul>
+                    </div>
+                    <div class="management-column">
+                        <h4>Movement Integration</h4>
+                        <ul class="bullet-list">
+                            <li>Standing review sessions</li>
+                            <li>Walk during 1:1 calls</li>
+                            <li>Midday reset break</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- April Section -->
+        <section id="april" class="month-section">
+            <h2 class="month-title">
+                April 2024
+                <span class="month-subtitle">Integration & Documentation Phase</span>
+            </h2>
+            <div class="calendar-header">
+                <span>Sun</span>
+                <span>Mon</span>
+                <span>Tue</span>
+                <span>Wed</span>
+                <span>Thu</span>
+                <span>Fri</span>
+                <span>Sat</span>
+            </div>
+            <div class="calendar-grid">
+                <div class="day inactive"><span class="date">31</span></div>
+                <div class="day"><span class="date">1</span></div>
+                <div class="day"><span class="date">2</span></div>
+                <div class="day"><span class="date">3</span></div>
+                <div class="day has-milestone">
+                    <span class="date">4</span>
+                    <div class="milestone">Documentation Review</div>
+                </div>
+                <div class="day"><span class="date">5</span></div>
+                <div class="day weekend"><span class="date">6</span></div>
+
+                <div class="day weekend"><span class="date">7</span></div>
+                <div class="day"><span class="date">8</span></div>
+                <div class="day"><span class="date">9</span></div>
+                <div class="day"><span class="date">10</span></div>
+                <div class="day has-milestone">
+                    <span class="date">11</span>
+                    <div class="milestone">Integration Package</div>
+                </div>
+                <div class="day"><span class="date">12</span></div>
+                <div class="day weekend"><span class="date">13</span></div>
+
+                <div class="day weekend"><span class="date">14</span></div>
+                <div class="day"><span class="date">15</span></div>
+                <div class="day"><span class="date">16</span></div>
+                <div class="day"><span class="date">17</span></div>
+                <div class="day"><span class="date">18</span></div>
+                <div class="day"><span class="date">19</span></div>
+                <div class="day weekend"><span class="date">20</span></div>
+
+                <div class="day weekend"><span class="date">21</span></div>
+                <div class="day"><span class="date">22</span></div>
+                <div class="day"><span class="date">23</span></div>
+                <div class="day"><span class="date">24</span></div>
+                <div class="day"><span class="date">25</span></div>
+                <div class="day"><span class="date">26</span></div>
+                <div class="day weekend"><span class="date">27</span></div>
+
+                <div class="day weekend"><span class="date">28</span></div>
+                <div class="day"><span class="date">29</span></div>
+                <div class="day"><span class="date">30</span></div>
+            </div>
+
+            <div class="management-section">
+                <h3>Management & Planning</h3>
+                <div class="management-grid">
+                    <div class="management-column">
+                        <h4>Energy Management</h4>
+                        <ul class="bullet-list">
+                            <li>Integration focus: 0900-1100</li>
+                            <li>Documentation: 1400-1600</li>
+                            <li>Strategic breaks aligned</li>
+                        </ul>
+                    </div>
+                    <div class="management-column">
+                        <h4>Environmental Setup</h4>
+                        <ul class="bullet-list">
+                            <li>Integration environment ready</li>
+                            <li>Documentation system prepared</li>
+                            <li>Communication channels open</li>
+                        </ul>
+                    </div>
+                    <div class="management-column">
+                        <h4>Movement Integration</h4>
+                        <ul class="bullet-list">
+                            <li>Active review sessions</li>
+                            <li>Integration planning walks</li>
+                            <li>Regular movement blocks</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</body>
 </html>
